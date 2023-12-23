@@ -50,11 +50,14 @@ class CustomNavigationBar extends StatefulWidget {
     this.scaleCurve = Curves.linear,
     this.isFloating = false,
     this.blurEffect = false,
+    this.borderColor = Colors.transparent,
     this.opacity = 0.8,
   })  : assert(scaleFactor <= 0.5, 'Scale factor must smaller than 0.5'),
         assert(scaleFactor > 0, 'Scale factor must bigger than 0'),
         assert(0 <= currentIndex && currentIndex < items.length),
         super(key: key);
+
+  final Color borderColor;
 
   ///
   /// Animation duration
@@ -352,29 +355,33 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
       borderRadius: BorderRadius.all(
         widget.borderRadius,
       ),
-      child: SizedBox(
-        height: height,
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            for (var i = 0; i < widget.items.length; i++)
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    widget.onTap!(i);
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildIcon(i),
-                      _buildLabel(i),
-                    ],
+      child: Container(
+        decoration:
+            BoxDecoration(border: Border.all(color: widget.borderColor)),
+        child: SizedBox(
+          height: height,
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              for (var i = 0; i < widget.items.length; i++)
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      widget.onTap!(i);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildIcon(i),
+                        _buildLabel(i),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
