@@ -51,6 +51,7 @@ class CustomNavigationBar extends StatefulWidget {
     this.isFloating = false,
     this.blurEffect = false,
     this.borderColor = Colors.transparent,
+    this.borderWidth = 1.0,
     this.opacity = 0.8,
   })  : assert(scaleFactor <= 0.5, 'Scale factor must smaller than 0.5'),
         assert(scaleFactor > 0, 'Scale factor must bigger than 0'),
@@ -58,6 +59,7 @@ class CustomNavigationBar extends StatefulWidget {
         super(key: key);
 
   final Color borderColor;
+  final double borderWidth;
 
   ///
   /// Animation duration
@@ -356,8 +358,13 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
         widget.borderRadius,
       ),
       child: Container(
-        decoration:
-            BoxDecoration(border: Border.all(color: widget.borderColor)),
+        decoration: BoxDecoration(
+          border:
+              Border.all(color: widget.borderColor, width: widget.borderWidth),
+          borderRadius: BorderRadius.all(
+            widget.borderRadius,
+          ),
+        ),
         child: SizedBox(
           height: height,
           width: MediaQuery.of(context).size.width,
